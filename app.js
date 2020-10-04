@@ -3,12 +3,31 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const dishRouter = require('./routes/dishRouter');
 const promoRouter = require('./routes/promoRouter');
 const leaderRouter = require('./routes/leaderRouter');
+
+const mongoose = require('mongoose');
+const Dishes = require('./models/dishes');
+
+
+//connect database
+const url = process.env.DATABASE_URI;
+mongoose
+    .connect(url, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    })
+    .then((db) => console.log('Connected Successfully to Database!'));
+
+mongoose.connection.on('error', (err) => {
+    console.log('DB connection error:' + err);
+});
 
 const app = express();
 
