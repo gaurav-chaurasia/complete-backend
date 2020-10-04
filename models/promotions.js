@@ -7,15 +7,15 @@ const promoSchema = new Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        unique: true
     },
     image: {
         type: String,
         trim: true
     },
-    lable: {
+    label: {
         type: String,
-        default: 'New'
+        default: ''
     },
     price: {
         type: Currency,

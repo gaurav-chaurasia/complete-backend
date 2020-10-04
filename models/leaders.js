@@ -6,7 +6,7 @@ const leaderSchema = new Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        unique: true
     },
     image: {
         type: String,
@@ -22,6 +22,7 @@ const leaderSchema = new Schema({
     },
     description: {
         type: String,
+        trim: true,
         required: true
     }, 
     featured: {
