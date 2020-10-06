@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const authenticate =  require('./authenticate');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -51,30 +53,23 @@ app.use(session({
 	store: new FileStore()
 }));
 
-// route wichc don't need autherization
+app.use(passport.initialize());
+app.use(passport.session());
+
+// route wiche don't need autherization
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 function auth (req, res, next) {
-	console.log(req.session);
 
-	if (!req.session.user) {
-
+	if (!req.user) {
 		var err = new Error('You are not authenticated!');
 		res.setHeader('WWW-Authenticate', 'Basic');                        
 		err.status = 401;
 		return next(err);
 	}
 	else {
-		if (req.session.user === 'authenticated') {
-			// console.log('req.session: ',req.session);
-			next();
-		}
-		else {
-			var err = new Error('You are not authenticated!');
-			err.status = 403;
-			next(err);
-		}
+		next();
 	}
 }
 
