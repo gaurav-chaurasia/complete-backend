@@ -1,12 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/user');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken'); 
 
+const User = require('./models/user');
 const config = require('./config');
-const user = require('./models/user');
 
 /**
  * @authenticate , @serializeUser , and @deserializeUser are provided on User model by 
@@ -26,7 +25,7 @@ opts.secretOrKey = config.secretKey;
 
 exports.jwtPassport = passport.use(new JwtStrategy(opts, 
     (jwt_payload, done) => {
-        console.log("Jwt Payload: ", jwt_payload);
+        // console.log("Jwt Payload: ", jwt_payload);
         User.findOne({_id: jwt_payload._id}, (err, user) => {
             if (err) {
                 return done(err, false);

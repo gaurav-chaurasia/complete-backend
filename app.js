@@ -6,10 +6,14 @@ const logger = require('morgan');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
-const authenticate =  require('./authenticate');
-const config = require('./config');
 require('dotenv').config();
 
+
+// local node modules
+const config = require('./config');
+const authenticate =  require('./authenticate');
+
+//routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const dishRouter = require('./routes/dishRouter');
